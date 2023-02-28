@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
-import { GetTodosById } from "../networks/todo.api";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { GetTodosById, PostTodo } from "../networks/todo.api";
 
 type Props = {};
 
@@ -26,6 +26,7 @@ export default function Todos({}: Props) {
   return (
     <div>
       <input placeholder="id göre çek" onChange={onChange} />
+      <button onClick={() => PostTodo({ title: "title-1" })}>Bas</button>
     </div>
   );
 }

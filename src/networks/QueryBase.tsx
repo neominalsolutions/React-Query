@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 export function GetQuery(
   tag: string,
@@ -57,4 +57,48 @@ export function GetQuery(
   }
 
   return query;
+}
+
+export function PostQuery(tag: string, endpoint: string, params: any) {
+  // localStorage.setItem("token", "mytoken");
+
+  console.log("params", params);
+
+  const token = localStorage.getItem("token");
+  let myHeaders = {};
+
+  if (token != undefined) {
+    myHeaders = { Authorization: `Bearer ${token}` };
+  }
+
+  // tag cache bozmak için kullanılan tag değeri
+  // params değeri değiştiğinde cacheden çekmez
+  const mutation = useMutation({
+    mutationKey: [tag, params],
+    mutationFn: async ({ signal }: any) => {
+      const { data } = await axios.post(endpoint, {
+        params: params,
+        signal,
+        headers: myHeaders,
+      });
+
+      console.log("post-data", data);
+
+      return data;
+    },
+  });
+
+  return mutation;
+
+  // if (query.isLoading) {
+  //   console.log("loading");
+  // }
+
+  // if (query.isFetching) {
+  //   console.log("fetching");
+  // }
+
+  // if (query.isFetched) {
+  //   console.log("fetched");
+  // }
 }

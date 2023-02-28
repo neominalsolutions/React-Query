@@ -28,6 +28,12 @@ export function GetQuery(
       });
       return data;
     },
+    onError: (err) => {
+      console.log("err", err);
+    },
+    onSuccess: (data) => {
+      console.log("success", data);
+    },
     refetchInterval: refetchInterval ?? undefined,
   });
 
@@ -59,10 +65,8 @@ export function GetQuery(
   return query;
 }
 
-export function PostQuery(tag: string, endpoint: string, params: any) {
+export function PostQuery(tag: string, endpoint: string) {
   // localStorage.setItem("token", "mytoken");
-
-  console.log("params", params);
 
   const token = localStorage.getItem("token");
   let myHeaders = {};
@@ -74,11 +78,9 @@ export function PostQuery(tag: string, endpoint: string, params: any) {
   // tag cache bozmak için kullanılan tag değeri
   // params değeri değiştiğinde cacheden çekmez
   const mutation = useMutation({
-    mutationKey: [tag, params],
-    mutationFn: async ({ signal }: any) => {
+    mutationFn: async (params: any) => {
       const { data } = await axios.post(endpoint, {
         params: params,
-        signal,
         headers: myHeaders,
       });
 
@@ -86,19 +88,13 @@ export function PostQuery(tag: string, endpoint: string, params: any) {
 
       return data;
     },
+    onSuccess: (data) => {
+      console.log("success", data);
+    },
+    onError: (err) => {
+      console.log("err", err);
+    },
   });
 
   return mutation;
-
-  // if (query.isLoading) {
-  //   console.log("loading");
-  // }
-
-  // if (query.isFetching) {
-  //   console.log("fetching");
-  // }
-
-  // if (query.isFetched) {
-  //   console.log("fetched");
-  // }
 }

@@ -10,6 +10,7 @@ export default function Todos({}: Props) {
   const queryClient = useQueryClient();
 
   const { data, isSuccess, isLoading, error } = GetTodosById(3);
+  const mutation = PostTodo();
 
   useEffect(() => {
     if (isSuccess) {
@@ -26,7 +27,7 @@ export default function Todos({}: Props) {
   return (
     <div>
       <input placeholder="id göre çek" onChange={onChange} />
-      <button onClick={() => PostTodo({ title: "title-1" })}>Bas</button>
+      <button onClick={() => mutation.mutate({ title: "1" })}>Bas</button>
     </div>
   );
 }

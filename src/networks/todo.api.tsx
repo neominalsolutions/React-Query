@@ -8,10 +8,6 @@ export function GetTodosById(id: number) {
   });
 }
 
-export function PostTodo(param: any) {
-  return PostQuery(
-    "todos",
-    `https://jsonplaceholder.typicode.com/todos/`,
-    param
-  );
+export function PostTodo() {
+  return PostQuery("todos", `https://jsonplaceholder.typicode.com/todos/`);
 }
